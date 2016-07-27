@@ -5,7 +5,6 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
 module.exports = {
 
 	attributes: {
@@ -67,8 +66,6 @@ module.exports = {
 						if(err){
 							return cb(err);
 						} else {
-							var token = jwt.sign(user, 'secret', {expiresIn: 60*24*30});
-							updatedUser.token = token;
 							return cb(null, updatedUser);
 						}
 					});

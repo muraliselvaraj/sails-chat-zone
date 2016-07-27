@@ -25,8 +25,6 @@
     "bcrypt": "*",
     "moment": "*",
     "sails-mongo": "*",
-    "jsonwebtoken": "*",
-    "express-jwt": "*",
     "connect-redis": "*"
   },
   "scripts": {

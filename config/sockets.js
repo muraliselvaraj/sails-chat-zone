@@ -107,7 +107,6 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
     beforeConnect: function(handshake, cb) {
-        sails.log.debug("called before connection");
         // `true` allows the connection
         return cb(null, true);
         // (`false` would reject the connection)

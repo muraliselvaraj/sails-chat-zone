@@ -8,7 +8,6 @@
  * For more information on configuration, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
-var expressJwt = require('express-jwt');
 module.exports.http = {
 
   /****************************************************************************
@@ -90,17 +89,4 @@ module.exports.http = {
   ***************************************************************************/
 
   // cache: 31557600000
-};
-
-// for the following urls token is not required. In future also if any public url is there we need to add it here
-module.exports = {
-    http: {
-        customMiddleware: function(app){
-            app.use(expressJwt({secret: 'secret'}).unless({path: [
-                '/user/signup',
-                '/user/login',
-                '/user/logout'
-            ]}));
-        }
-    }
 };

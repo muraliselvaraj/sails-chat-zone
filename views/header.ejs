@@ -1,0 +1,21 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Sails App Chat Zone</a>
+        </div>
+        <% if(req && req.session&& req.session.user){ %>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="javascript:void(0);">
+                        Welcome <b><%= req.session.user.name %></b>
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/logout" target="_self">
+                        Sign out
+                    </a>
+                </li>
+            </ul>
+        <% } %>
+    </div>
+</nav>
