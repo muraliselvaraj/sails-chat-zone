@@ -154,12 +154,9 @@ module.exports = {
 			sails.log.debug("Not a socket request or user id is not present");
 			return res.badRequest({message: "Not a socket request"});
 		}
-		// var sockets = sails.sockets.subscribers();
-		// console.log('sockets == ', sockets);
-		// var socketIDS = sails.sockets;
-		// console.log('socketIDS == ', socketIDS);
 		if(req.session.user){
 			var socket_id = sails.sockets.getId(req.socket);
+			console.log('connected socket_id == ', socket_id);
 			var user_id = req.param('user_id');
 			async.waterfall([
 				function(callback){

@@ -108,10 +108,26 @@ module.exports.sockets = {
   ***************************************************************************/
     beforeConnect: function(handshake, cb) {
         // `true` allows the connection
+        // for(var key in handshake){
+        //     console.log('**************'+key+'**************');
+        //     console.log('handshake.'+key+' ====== ', handshake[key]);
+        //     console.log('**************'+key+'**************');
+        // }
+        // console.log('****************************');
         return cb(null, true);
         // (`false` would reject the connection)
     },
 
+    afterConnect: function(session, socket, cb) {
+        console.log('session == ', session);
+        for(var key in socket){
+            console.log('**************'+key+'**************');
+            console.log('socket.'+key+' ====== ', socket[key]);
+            console.log('**************'+key+'**************');
+        }
+        console.log('****************************');
+        return cb();
+    },
 
   /***************************************************************************
   *                                                                          *
@@ -121,10 +137,38 @@ module.exports.sockets = {
   * disconnects                                                              *
   *                                                                          *
   ***************************************************************************/
-  // afterDisconnect: function(session, socket, cb) {
-  //   // By default: do nothing.
-  //   return cb();
-  // },
+    afterDisconnect: function(session, socket, cb) {
+        // By default: do nothing.
+        // console.log('session == ', session);
+        // for(var key in socket){
+        //     console.log('**************'+key+'**************');
+        //     console.log('socket.'+key+' ====== ', socket[key]);
+        //     console.log('**************'+key+'**************');
+        // }
+        // console.log('****************************');
+        console.log('disconnected socket_id == ', socket.id);
+        if(session.user){
+            User.findOne({id: session.user.id}).exec(function(err, user){
+                if(!err && user){
+                    var socket_ids = [];
+                    for(var i=0;i<user.socket_ids.length;i++){
+                        (function(sid){
+                            if(sid != socket.id){
+                                socket_ids.push(sid)
+                            }
+                        })(user.socket_ids[i]);
+                    }
+                    User.edit(session.user.id, {socket_ids: socket_ids}, function(err, resp){
+                        if(!err){
+                            session.socket_ids = resp.socket_ids;
+                            console.log('updated in afterDisconnect');
+                        }
+                    });
+                }
+            });
+        }
+        return cb();
+    }
 
   /***************************************************************************
   *                                                                          *
