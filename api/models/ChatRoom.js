@@ -7,8 +7,22 @@
 
 module.exports = {
 
-  attributes: {
+	attributes: {
+		messages: {
+			collection: 'message',
+			via: 'chat_room'
+		}
+	},
 
-  }
+	chatRooms: function(user, cb){
+		ChatRoom.find({members: user.id}).sort({"createdAt": -1}).populate('messages').exec(function(err, rooms){
+			if(err){
+				return cb(err);
+			} else {
+				return cb(null, rooms);
+			}
+		});
+	}
+
 };
 

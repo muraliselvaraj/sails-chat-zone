@@ -1,4 +1,4 @@
-var ALL_USERS_LIST, ONLINE_USERS;
+var ALL_USERS_LIST = [], ONLINE_USERS = [];
 $(document).ready(function(){
 });
 if(typeof loggedInUser != 'undefined' && loggedInUser && loggedInUser != ''){
@@ -11,6 +11,11 @@ if(typeof loggedInUser != 'undefined' && loggedInUser && loggedInUser != ''){
 		io.socket.on('usersList', function(users, response){
 			ALL_USERS_LIST = users;
 			console.log('users list === ', users);
+		});
+
+		io.socket.on('newUserCreated', function(user, response){
+			ALL_USERS_LIST.push(user);
+			console.log('newUserCreated === ', user);
 		});
 
 		io.socket.on('userLoggedOut', function(body, response){
@@ -51,12 +56,17 @@ function sendMessage(evt){
 	}
 
 	function postMsg(){
+		var members = [];
+		members.push(loggedInUser.id);
+		members.push(toUser.id);
 		var message = {
 			text: $('#m').val(),
 			from: loggedInUser.id,
 			to: toUser.id,
 			senderName: loggedInUser.name,
-			receiverName: toUser.name
+			receiverName: toUser.name,
+			members: members,
+			ts: Math.floor(Date.now())
 		};
 
 		var url = '/user/post-message?from='+loggedInUser.id+'&to='+toUser.id;

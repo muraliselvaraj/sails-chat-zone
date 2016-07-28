@@ -32,5 +32,9 @@ module.exports = {
 			return res.badRequest({message: "You have not loggedIn"});
 		}
 	}
+
+	// messageHistory: function(req, res){
+	// 	Message.find({})
+	// }
 };
 

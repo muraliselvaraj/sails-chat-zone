@@ -53,6 +53,15 @@ module.exports = {
 			if(err){
 				return cb(err);
 			} else {
+				User.onlineUsers({loggedIn: 1}, function(err, users){
+					if(!err && users.length > 0){
+						_.each(users, function(user){
+							_.each(user.socket_ids, function(sid){
+								sails.sockets.broadcast(sid, 'newUserCreated', createdUser);
+							});
+						});
+					}
+				});
 				return cb(null, {message: 'user created successfully'});
 			}
 		});
@@ -87,6 +96,16 @@ module.exports = {
 				return cb(err);
 			} else {
 				return cb(null, updatedUser[0]);
+			}
+		});
+	},
+
+	onlineUsers: function(opts, cb){
+		User.find(opts).exec(function(err, users){
+			if(err){
+				return cb(err);
+			} else {
+				return cb(null, users);
 			}
 		});
 	}

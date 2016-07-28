@@ -7,8 +7,12 @@
 
 module.exports = {
 
-  attributes: {
+	attributes: {
+		chat_room: {
+			model: 'chatroom'
+		}
+	},
 
-  }
+
 };
 

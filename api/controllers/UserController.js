@@ -12,7 +12,14 @@ module.exports = {
 			if(req.path.indexOf('/user/login') > -1){
                 return res.redirect('/');
             } else {
-            	return res.view('index', {user: req.session.user});
+            	// return res.view('index', {user: req.session.user});
+            	ChatRoom.chatRooms(req.session.user, function(err, rooms){
+            		if(err){
+            			return res.negotiate(err);
+            		} else {
+            			return res.view('index', {user: req.session.user, chatRooms: rooms});
+            		}
+            	});
             }
 		} else {
 			if(req.method == 'POST'){
@@ -88,7 +95,13 @@ module.exports = {
 			    			if(req.path.indexOf('/user/login') > -1){
 				                return res.redirect('/');
 				            } else {
-				            	return res.view('index', {user: req.session.user});
+				            	ChatRoom.chatRooms(req.session.user, function(err, rooms){
+				            		if(err){
+				            			return res.negotiate(err);
+				            		} else {
+				            			return res.view('index', {user: req.session.user, chatRooms: rooms});
+				            		}
+				            	});
 				            }
 			    		}
 			    	});

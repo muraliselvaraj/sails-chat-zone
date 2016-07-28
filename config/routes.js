@@ -38,7 +38,8 @@ module.exports.routes = {
     '/user/logout' : 'UserController.logout',
     // '/test' : 'UserController.test',
     '/users-list' : 'UserController.users',
-    '/user/post-message' : 'MessageController.sendMessage'
+    '/user/post-message' : 'MessageController.sendMessage',
+    '/user/chatRooms' : 'ChatRoomController.chatRooms'
 
 
   /***************************************************************************
