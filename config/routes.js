@@ -36,7 +36,8 @@ module.exports.routes = {
     '/user/login' : 'UserController.login',
     '/user/signup' : 'UserController.signup',
     '/user/logout' : 'UserController.logout',
-    '/test' : 'UserController.test'
+    // '/test' : 'UserController.test',
+    '/users-list' : 'UserController.users'
 
 
   /***************************************************************************

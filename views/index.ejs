@@ -1,7 +1,27 @@
 <div class="container">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-12">
             In home page...      
+        </div>
+        <div class="col-lg-12">
+            <div style="padding: 20px 0px;">
+                <ul id="messages">
+                    <li>test</li>
+                    <li>test</li>
+                    <li>test</li>
+                </ul>
+            </div>
+            <div style="padding: 20px 0px;">
+                <form action="" name="msg-form">
+                    <input id="m" autocomplete="off" />
+                    <button>Send</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+<style>
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 5px 10px; }
+    #messages li:nth-child(odd) { background: #eee; }
+</style>

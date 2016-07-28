@@ -24,6 +24,11 @@ module.exports = {
 			type: 'boolean',
 			defaultsTo: 0,
 			required: true
+	    },
+	    toJSON: function () {
+			var obj = this.toObject();
+			delete obj.password;
+			return obj;
 	    }
 	},
 
