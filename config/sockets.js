@@ -108,25 +108,8 @@ module.exports.sockets = {
   ***************************************************************************/
     beforeConnect: function(handshake, cb) {
         // `true` allows the connection
-        // for(var key in handshake){
-        //     console.log('**************'+key+'**************');
-        //     console.log('handshake.'+key+' ====== ', handshake[key]);
-        //     console.log('**************'+key+'**************');
-        // }
-        // console.log('****************************');
         return cb(null, true);
         // (`false` would reject the connection)
-    },
-
-    afterConnect: function(session, socket, cb) {
-        console.log('session == ', session);
-        for(var key in socket){
-            console.log('**************'+key+'**************');
-            console.log('socket.'+key+' ====== ', socket[key]);
-            console.log('**************'+key+'**************');
-        }
-        console.log('****************************');
-        return cb();
     },
 
   /***************************************************************************
@@ -139,14 +122,6 @@ module.exports.sockets = {
   ***************************************************************************/
     afterDisconnect: function(session, socket, cb) {
         // By default: do nothing.
-        // console.log('session == ', session);
-        // for(var key in socket){
-        //     console.log('**************'+key+'**************');
-        //     console.log('socket.'+key+' ====== ', socket[key]);
-        //     console.log('**************'+key+'**************');
-        // }
-        // console.log('****************************');
-        console.log('disconnected socket_id == ', socket.id);
         if(session.user){
             User.findOne({id: session.user.id}).exec(function(err, user){
                 if(!err && user){
