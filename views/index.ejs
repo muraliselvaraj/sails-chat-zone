@@ -6,13 +6,10 @@
         <div class="col-lg-12">
             <div style="padding: 20px 0px;">
                 <ul id="messages">
-                    <li>test</li>
-                    <li>test</li>
-                    <li>test</li>
                 </ul>
             </div>
             <div style="padding: 20px 0px;">
-                <form action="" name="msg-form">
+                <form action="return false;" onsubmit="sendMessage(event);" name="msg-form">
                     <input id="m" autocomplete="off" />
                     <button>Send</button>
                 </form>

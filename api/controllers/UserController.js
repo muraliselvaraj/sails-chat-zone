@@ -204,6 +204,8 @@ module.exports = {
 			return res.badRequest({message: "You have not loggedIn"});
 		}
 
+		// sails.sockets.on('post message', function())
+
 		return res.ok();
 	}
 
