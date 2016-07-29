@@ -8,7 +8,7 @@
 module.exports = {
 
 	attributes: {
-		chat_room: {
+		room_token: {
 			model: 'chatroom'
 		}
 	},

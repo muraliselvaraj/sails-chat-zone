@@ -17,7 +17,13 @@ module.exports = {
             		if(err){
             			return res.negotiate(err);
             		} else {
-            			return res.view('index', {user: req.session.user, chatRooms: rooms});
+            			User.find({id: {'!': req.session.user.id}}).exec(function(err, users){
+            				if(err){
+            					return res.negotiate(err);
+            				} else {
+            					return res.view('index', {user: req.session.user, chatRooms: rooms, users: users});
+            				}
+            			});
             		}
             	});
             }
@@ -37,7 +43,19 @@ module.exports = {
 			    			if(req.path.indexOf('/user/login') > -1){
 				                return res.redirect('/');
 				            } else {
-				            	return res.view('index', {user: req.session.user});
+				            	ChatRoom.chatRooms(req.session.user, function(err, rooms){
+				            		if(err){
+				            			return res.negotiate(err);
+				            		} else {
+				            			User.find({id: {'!': req.session.user.id}}).exec(function(err, users){
+				            				if(err){
+				            					return res.negotiate(err);
+				            				} else {
+				            					return res.view('index', {user: req.session.user, chatRooms: rooms, users: users});
+				            				}
+				            			});
+				            		}
+				            	});
 				            }
 			    		}
 			    	});
@@ -99,7 +117,13 @@ module.exports = {
 				            		if(err){
 				            			return res.negotiate(err);
 				            		} else {
-				            			return res.view('index', {user: req.session.user, chatRooms: rooms});
+				            			User.find({id: {'!': req.session.user.id}}).exec(function(err, users){
+				            				if(err){
+				            					return res.negotiate(err);
+				            				} else {
+				            					return res.view('index', {user: req.session.user, chatRooms: rooms, users: users});
+				            				}
+				            			});
 				            		}
 				            	});
 				            }

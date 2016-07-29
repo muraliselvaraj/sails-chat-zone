@@ -4,10 +4,18 @@
             <% if(chatRooms && chatRooms.length > 0){ %>
                 <% _.each(chatRooms, function(chatRoom){ %>
                     <div class="list-group">
-                        <a href="javascript:void(0);" class="chat-head list-group-item">
-                            <img class="media-object" src="images/default_user.png" data-chat-room-id="<%= chatRoom.id %>" alt="Room Name">
+                        <a href="javascript:void(0);" class="chat-head list-group-item active">
+                            <img class="media-object" src="images/default_user.png" data-room-token="<%= chatRoom.id %>" alt="Room Name">
                             <div>
-                                <h4 class="list-group-item-heading"><%= chatRoom.name %></h4>
+                                <% var roomName = ''; %>
+                                <% _.each(chatRoom.members, function(member, idx){
+                                    if(idx == 0){
+                                        roomName += member;
+                                    } else {
+                                        roomName += ', '+member;
+                                    }
+                                }); %>
+                                <h4 class="list-group-item-heading"><%= roomName %></h4>
                             </div>
                         </a>
                     </div>
@@ -33,21 +41,29 @@
                     </h3>
                 </div>
                 <% _.each(chatRooms, function(chatRoom){ %>
-                    <div enabled="true" class="conversation-box box-body" id="ChatRoomBox-<%= chatRoom.id %>">
+                    <div enabled="true" class="conversation-box box-body" id="ChatRoomBox<%= chatRoom.id %>">
                         <div class="direct-chat-messages">
                             <% _.each(chatRoom.messages, function(message){ %>
-                                <div class="direct-chat-msg <% (message.from == req.session.user.id) ? 'right' : '' %>">
+                                <div class="direct-chat-msg <%= (message.auth_user_id == req.session.user.id) ? 'right' : '' %>">
                                     <div class="direct-chat-info clearfix">
-                                        <span class="direct-chat-name pull-left"><%= message.senderName %></span>
+                                        <span class="direct-chat-name pull-left"><%= message.auth_user_name %></span>
                                         <span class="direct-chat-timestamp pull-right"><%= new Date(message.ts) %>
                                         </span>
                                     </div>
-                                    <img class="direct-chat-img media-object" src="img/default_user.png" alt="Message User Image">
+                                    <img class="direct-chat-img media-object" src="images/default_user.png" alt="Message User Image">
                                     <div class="direct-chat-text">
                                         <%= message.text %>
                                     </div>
                                 </div>
                             <% }); %>
+                        </div>
+                        <div class="box-footer">
+                            <div class="input-group message-div">
+                                <input name="message" placeholder="Type Message ..." class="form-control message" type="text">
+                                <span class="input-group-btn">
+                                    <button type="button" data-room-token="<%= chatRoom.id %>" class="btn btn-primary btn-flat message-send">Send</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 <% }); %>
@@ -55,20 +71,14 @@
             <div class="new-conversation-box box-footer hide">
                 <div class="input-group" style="width:100%;margin-bottom: 20px;">
                     <select name="chat_users[]" id="chat_users_list" class="js-example-responsive" placeholder="Please Select User" style="width:100%;">
-                        <% if(typeof ALL_USERS_LIST != 'undefined'){ %>
-                            <% _.each(ALL_USERS_LIST, function(user){ %>
-                                <option value="<%= user.id %>"><%= user.name %></option>
-                            <% }); %>
-                        <% } %>
+                        
                     </select>
                 </div>
                 <div class="input-group message-div">
-                    <form action="return false;" onsubmit="sendMessage(event);" name="msg-form">
-                        <input id="m" autocomplete="off" name="message" placeholder="Type Message ..." class="form-control message" type="text" />
-                        <span class="input-group-btn">
-                            <button type="button" data-room-token="" class="btn btn-primary btn-flat message-send">Send</button>
-                        </span>
-                    </form>
+                    <input autocomplete="off" name="message" placeholder="Type Message ..." class="form-control message" type="text" />
+                    <span class="input-group-btn">
+                        <button type="button" data-room-token="" class="btn btn-primary btn-flat message-send">Send</button>
+                    </span>
                 </div>
             </div>
         </div>

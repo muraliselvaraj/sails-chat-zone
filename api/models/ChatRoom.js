@@ -10,12 +10,12 @@ module.exports = {
 	attributes: {
 		messages: {
 			collection: 'message',
-			via: 'chat_room'
+			via: 'room_token'
 		}
 	},
 
 	chatRooms: function(user, cb){
-		ChatRoom.find({members: user.id}).sort({"createdAt": -1}).populate('messages').exec(function(err, rooms){
+		ChatRoom.find({members: user.id}).sort({"createdAt": -1}).populate('messages', {sort: {'createdAt': 1}}).exec(function(err, rooms){
 			if(err){
 				return cb(err);
 			} else {
